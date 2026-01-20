@@ -4,5 +4,5 @@ class StudentAlreadyInCourseException(Exception):
 class StudentNotInCourseException(Exception):
     pass
 
-class GradeFormatException(Exception):
+class InvalidGradeException(Exception):
     pass

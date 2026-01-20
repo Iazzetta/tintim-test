@@ -5,7 +5,7 @@ from academy.utils import get_grade_number, get_grade_letter
 from .exceptions import (
     StudentAlreadyInCourseException, 
     StudentNotInCourseException, 
-    GradeFormatException
+    InvalidGradeException
 )
 
 course_service = CourseService()
@@ -36,7 +36,7 @@ def set_student_grade(request, course_id):
         course_service.set_student_grade(student_id, course_id, grade)
     except StudentNotInCourseException as e:
         return HttpResponse(str(e), status=400)
-    except GradeFormatException as e:
+    except InvalidGradeException as e:
         return HttpResponse(str(e), status=400)
 
     return HttpResponse("Student grade set successfully.", status=200)

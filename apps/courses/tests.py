@@ -4,7 +4,8 @@ from apps.courses.models import Course, Grade
 from apps.students.models import Student
 from apps.courses.exceptions import (
     StudentAlreadyInCourseException, 
-    StudentNotInCourseException
+    StudentNotInCourseException,
+    InvalidGradeException
 )
 
 class CourseServiceTest(TestCase):
@@ -45,6 +46,10 @@ class CourseServiceTest(TestCase):
     def test_set_student_grade_student_not_in_course(self):
         with self.assertRaises(StudentNotInCourseException):
             self.course_service.set_student_grade(self.student2.id, self.course.id, 100)
+
+    def test_set_student_grade_invalid_grade(self):
+        with self.assertRaises(InvalidGradeException):
+            self.course_service.set_student_grade(self.student.id, self.course.id, 'invalid_grade')
 
     def test_get_students_in_course(self):
         self.course_service.join_course(self.course.id, self.student.id)
