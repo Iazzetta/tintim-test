@@ -3,6 +3,7 @@ from apps.courses.models import Course
 from apps.students.models import Student
 from apps.students.service import StudentService
 from apps.courses.service import CourseService
+from apps.students.dtos import StudentGradeReport
 
 class StudentServiceTest(TestCase):
     def setUp(self):
@@ -67,16 +68,16 @@ class StudentServiceTest(TestCase):
         self.course_service.set_student_grade(self.student.id, self.course2.id, 40)
         self.course_service.set_student_grade(self.student.id, self.course2.id, 'F')
 
-        report = self.student_service.consolidated_grade_report(self.student.id)
+        report: StudentGradeReport = self.student_service.consolidated_grade_report(self.student.id)
 
         self.assertEqual(len(report), 2)
 
-        self.assertEqual(report[0]['course'], 'Course 1')
-        self.assertEqual(report[0]['recorded_grades'], [80, 90, 60, 82])
-        self.assertEqual(report[0]['average'], 78)
-        self.assertEqual(report[0]['letter_grade'], 'C+')
+        self.assertEqual(report[0].course_name, 'Course 1')
+        self.assertEqual(report[0].recorded_grades, [80, 90, 60, 82])
+        self.assertEqual(report[0].average, 78)
+        self.assertEqual(report[0].letter_grade, 'C+')
 
-        self.assertEqual(report[1]['course'], 'Course 2')
-        self.assertEqual(report[1]['recorded_grades'], [50, 62, 40, 59])
-        self.assertEqual(report[1]['average'], 53)
-        self.assertEqual(report[1]['letter_grade'], 'F')
+        self.assertEqual(report[1].course_name, 'Course 2')
+        self.assertEqual(report[1].recorded_grades, [50, 62, 40, 59])
+        self.assertEqual(report[1].average, 53)
+        self.assertEqual(report[1].letter_grade, 'F')
