@@ -1,5 +1,5 @@
-from apps.courses.models import Course, Grade
-from apps.students.models import Student
+from apps.courses.models import Grade
+from apps.core.services import CoreService
 from apps.courses.exceptions import (
     StudentAlreadyInCourseException, 
     StudentNotInCourseException, 
@@ -7,21 +7,7 @@ from apps.courses.exceptions import (
 )
 from academy.utils import get_grade_number
 
-class CourseService:
-
-    def get_student(self, student_id: int):
-        try:
-            student = Student.objects.get(id=student_id)
-        except Student.DoesNotExist:
-            raise Student.DoesNotExist("Student does not exist")
-        return student
-
-    def get_course(self, course_id: int):
-        try:
-            course = Course.objects.get(id=course_id)
-        except Course.DoesNotExist:
-            raise Course.DoesNotExist("Course does not exist")
-        return course
+class CourseService(CoreService):
 
     def join_course(self, student_id: int, course_id: int):
         student = self.get_student(student_id)
