@@ -47,9 +47,13 @@ class CourseServiceTest(TestCase):
         with self.assertRaises(StudentNotInCourseException):
             self.course_service.set_student_grade(self.student2.id, self.course.id, 100)
 
-    def test_set_student_grade_invalid_grade(self):
+    def test_set_student_grade_invalid_grade_letter(self):
         with self.assertRaises(InvalidGradeException):
             self.course_service.set_student_grade(self.student.id, self.course.id, 'invalid_grade')
+
+    def test_set_student_grade_invalid_grade_number(self):
+        with self.assertRaises(InvalidGradeException):
+            self.course_service.set_student_grade(self.student.id, self.course.id, 101)
 
     def test_get_students_in_course(self):
         self.course_service.join_course(self.course.id, self.student.id)
